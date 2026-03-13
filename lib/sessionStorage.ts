@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getPersistentItem, setPersistentItem } from '@/lib/persistentStorage';
 
 import type { CheckinInput, ClassSession, FinishClassInput } from '../types/session';
 
@@ -10,7 +10,7 @@ function createSessionId(): string {
 }
 
 async function readSessions(): Promise<ClassSession[]> {
-  const rawValue = await AsyncStorage.getItem(STORAGE_KEY);
+  const rawValue = await getPersistentItem(STORAGE_KEY);
   if (!rawValue) {
     return [];
   }
@@ -24,7 +24,7 @@ async function readSessions(): Promise<ClassSession[]> {
 }
 
 async function writeSessions(sessions: ClassSession[]): Promise<void> {
-  await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+  await setPersistentItem(STORAGE_KEY, JSON.stringify(sessions));
 }
 
 function sortLatestFirst(sessions: ClassSession[]): ClassSession[] {

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   Linking,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -131,6 +132,11 @@ export default function FinishClassScreen() {
         learned_today: learnedToday.trim(),
         feedback: feedback.trim(),
       });
+
+      if (Platform.OS === 'web') {
+        router.replace('/records');
+        return;
+      }
 
       Alert.alert('Class finished', 'Check-out and post-class reflection were saved locally.', [
         {

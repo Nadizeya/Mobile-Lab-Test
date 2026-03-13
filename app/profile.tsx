@@ -1,6 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getUserProfile, saveUserProfile } from '@/lib/userProfile';
@@ -29,13 +29,24 @@ export default function ProfileScreen() {
       return;
     }
 
-    await saveUserProfile(studentIdInput, studentNameInput);
-    Alert.alert('Profile saved', 'Student profile is ready.', [
-      {
-        text: 'Continue',
-        onPress: () => router.replace('/home'),
-      },
-    ]);
+    try {
+      await saveUserProfile(studentIdInput, studentNameInput);
+
+      if (Platform.OS === 'web') {
+        router.replace('/home');
+        return;
+      }
+
+      Alert.alert('Profile saved', 'Student profile is ready.', [
+        {
+          text: 'Continue',
+          onPress: () => router.replace('/home'),
+        },
+      ]);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to save profile data.';
+      Alert.alert('Save failed', message);
+    }
   };
 
   return (

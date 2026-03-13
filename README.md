@@ -48,3 +48,25 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## Deploy to Firebase Hosting
+
+This project is configured to export the Expo web app to `dist/` and host it on Firebase Hosting.
+
+1. Log in to Firebase (one-time):
+
+   ```bash
+   npx firebase-tools login
+   ```
+
+2. Deploy to the configured Firebase project:
+
+   ```bash
+   npm run deploy:hosting
+   ```
+
+If you need to switch projects, run:
+
+```bash
+npx firebase-tools use --add
+```

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Linking,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -121,6 +122,11 @@ export default function CheckinScreen() {
         expected_topic: expectedTopic.trim(),
         mood_before: moodBefore,
       });
+
+      if (Platform.OS === 'web') {
+        router.replace('/home');
+        return;
+      }
 
       Alert.alert('Check-in complete', 'Your check-in data has been saved locally.', [
         {

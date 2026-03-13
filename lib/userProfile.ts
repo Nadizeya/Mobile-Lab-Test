@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getPersistentItem, setPersistentItem } from '@/lib/persistentStorage';
 
 const PROFILE_KEY = 'class_user_profile';
 
@@ -14,7 +14,7 @@ function toUid(studentId: string): string {
 }
 
 export async function getUserProfile(): Promise<UserProfile> {
-  const rawValue = await AsyncStorage.getItem(PROFILE_KEY);
+  const rawValue = await getPersistentItem(PROFILE_KEY);
 
   if (!rawValue) {
     return {
@@ -53,7 +53,7 @@ export async function saveUserProfile(studentId: string, studentName: string): P
     studentUid: toUid(cleanedId),
   };
 
-  await AsyncStorage.setItem(
+  await setPersistentItem(
     PROFILE_KEY,
     JSON.stringify({
       studentId: profile.studentId,
